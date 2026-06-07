@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Cá Nhân - Hà Mai Trang</title>
+    <style>
+        /* BẢNG MÀU VÀ ĐỊNH DẠNG CƠ BẢN */
+        :root {
+            --bg-color: #f6f4f0; /* Màu nền trắng ngà, tone ấm y hệt ảnh */
+            --primary-text: #4a443c; /* Nâu đất đậm */
+            --secondary-text: #766d62; /* Nâu đất nhạt */
+            --accent-color: #d1c7b8; /* Màu be làm điểm nhấn */
+            --box-bg: #ffffff; /* Nền hộp trắng */
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --font-heading: 'Times New Roman', Times, serif; 
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--primary-text);
+            font-family: var(--font-main);
+            line-height: 1.8;
+            overflow-x: hidden; 
+            position: relative;
+        }
+
+        /* --- TRANG TRÍ CÀNH CÂY (AESTHETIC VIBE) --- */
+        .deco-branch {
+            position: fixed;
+            pointer-events: none; 
+            z-index: 1000;
+            opacity: 0.85; 
+            filter: sepia(0.3) contrast(0.9); 
+        }
+
+        .branch-top-right {
+            top: -50px;
+            right: -50px;
+            width: 350px;
+            transform: rotate(15deg);
+        }
+
+        .branch-bottom-left {
+            bottom: -30px;
+            left: -50px;
+            width: 300px;
+            transform: rotate(-15deg);
+        }
+
+        /* HEADER & NAVIGATION */
+        header {
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+            padding: 1.5rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            box-shadow: 0 1px 10px rgba(0,0,0,0.03);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-text);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--secondary-text);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--primary-text);
+        }
+
+        /* MAIN CONTENT */
+        main {
+            padding: 4rem 10%;
+            position: relative;
+            z-index: 10; 
+        }
+
+        section {
+            margin-bottom: 5rem;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-heading);
+            margin-bottom: 1.5rem;
+            color: var(--primary-text);
+        }
+
+        h1 { 
+            font-size: 2.5rem; 
+            text-align: center; 
+            letter-spacing: 1px;
+            margin-bottom: 3rem;
+            text-transform: uppercase;
+        }
+        
+        h2 { 
+            font-size: 2rem; 
+            border-bottom: 1px solid var(--accent-color);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+            color: var(--secondary-text);
+            text-align: justify;
+        }
+
+        /* HỘP NỘI DUNG MỀM MẠI */
+        .box {
+            background-color: var(--box-bg);
+            padding: 2.5rem;
+            border-radius: 8px; 
+            box-shadow: 0 4px 30px rgba(0,0,0,0.02);
+            margin-bottom: 2rem;
+            border: 1px solid #f0ebe1;
+        }
+
+        .box ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary-text);
+        }
+
+        .box li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .box li strong {
+            color: var(--primary-text);
+        }
+
+        /* GRID DỰ ÁN */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .project-card {
+            background-color: var(--box-bg);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+            border: 1px solid #f0ebe1;
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .project-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--primary-text);
+        }
+
+        .view-detail {
+            display: inline-block;
+            text-decoration: none;
+            color: var(--primary-text);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            border-bottom: 1px solid var(--primary-text);
+            padding-bottom: 2px;
+        }
+
+        /* FOOTER */
+        footer {
+            background-color: #eae5dc;
+            color: var(--secondary-text);
+            text-align: center;
+            padding: 3rem 5%;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<img src="https://images.vexels.com/media/users/3/213076/isolated/preview/2b9bd605a9c0c88dd020d8f07ea379cc-hand-drawn-cherry-blossom-branch.png" class="deco-branch branch-top-right" alt="Branch decoration">
+<img src="https://images.vexels.com/media/users/3/213076/isolated/preview/2b9bd605a9c0c88dd020d8f07ea379cc-hand-drawn-cherry-blossom-branch.png" class="deco-branch branch-bottom-left" alt="Branch decoration">
+
+<header>
+    <div class="logo">HÀ MAI TRANG</div>
+    <nav>
+        <ul>
+            <li><a href="#intro">Giới thiệu</a></li>
+            <li><a href="#projects">Dự án</a></li>
+            <li><a href="#summary">Tổng kết</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <h1>Hồ Sơ Năng Lực Cá Nhân</h1>
+
+    <section id="intro">
+        <h2>🗝️ Trang 1: Giới thiệu bản thân</h2>
+        
+        <div class="box">
+            <h3 style="font-family: var(--font-main); font-weight: 600; font-size: 1.2rem;">1. Giới thiệu sơ lược</h3>
+            <ul>
+                <li><strong>Họ và tên:</strong> Hà Mai Trang</li>
+                <li><strong>Mã số sinh viên:</strong> 25111201</li>
+                <li><strong>Chuyên ngành:</strong> Nhật Bản học - Trường Đại học Việt Nhật (VJU)</li>
+                <li><strong>Quê quán:</strong> Thanh Oai, Hà Nội</li>
+                <li><strong>Sở thích:</strong> Mua đồ lưu niệm, du lịch và làm việc một mình, trang trí phòng ngủ.</li>
+            </ul>
+
+            <h3 style="font-family: var(--font-main); font-weight: 600; font-size: 1.2rem; margin-top: 2rem;">2. Mục tiêu học tập và Định hướng phát triển</h3>
+            <ul>
+                <li><strong>Mục tiêu học tập:</strong> Học tập và phát triển gắn với sự kỷ luật, đạt N2 ra trường, có chứng chỉ ngoại ngữ tiếng Anh và tiếng Nhật, giao tiếp thành thạo cả 2 ngôn ngữ, đạt GPA cao.</li>
+                <li><strong>Định hướng phát triển:</strong> Trở thành giảng viên tiếng Nhật xuất sắc, tâm huyết với nghề và đóng góp cho mối quan hệ giữa 2 nước Việt Nam - Nhật Bản.</li>
+            </ul>
+        </div>
+        
+        <div class="box">
+            <h3 style="font-family: var(--font-main); font-weight: 600; font-size: 1.2rem;">3. Mục tiêu của Portfolio này</h3>
+            <p>Hơn cả một bài tập, portfolio này là trạm lưu trữ số – nơi ghi lại hành trình phát triển tư duy và kỹ năng của tôi qua ba mục tiêu chính:</p>
+            <ul>
+                <li><strong>Số hóa năng lực:</strong> Minh chứng khả năng làm chủ công nghệ trong khối ngành Ngôn ngữ & Xã hội, từ việc quản lý dữ liệu khoa học, ứng dụng AI đến tối ưu hóa làm việc nhóm.</li>
+                <li><strong>Hệ thống hóa tri thức:</strong> Xây dựng một "kho lưu trữ" cá nhân logic để dễ dàng tra cứu, nhìn nhận và nâng cấp chất lượng học tập theo thời gian.</li>
+                <li><strong>Định vị bản thân:</strong> Tạo không gian hồ sơ trực tuyến chuyên nghiệp để kết nối, chia sẻ thế mạnh và các sản phẩm sáng tạo với giảng viên và cộng đồng.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2>Sản phẩm Dự án</h2>
+        <p>Góc nhỏ trưng bày các bài tập thành phần trong quá trình học tập, phản ánh việc ứng dụng trực tiếp Kỹ năng số vào thực tế.</p>
+        <div class="project-grid">
+            <div class="project-card">
+                <h3>Bài 1: Quản lý tệp tin</h3>
+                <p>Hệ thống hóa cấu trúc thư mục dữ liệu và quy tắc đặt tên tệp tin một cách khoa học, logic.</p>
+                <a href="showpdf.html?file=bt/bai1.pdf" target="_blank" class="view-detail">Nhấn vào đây để xem PDF Bài 1</a>
+            </div>
+            
+            <div class="project-card">
+                <h3>Bài 2: Tìm kiếm & Đánh giá</h3>
+                <p>Áp dụng các toán tử tìm kiếm nâng cao để tra cứu thông tin học thuật và đánh giá nguồn tài liệu.</p>
+                <a href="showpdf.html?file=bt/bai2.pdf" target="_blank" class="view-detail">Nhấn vào đây để xem PDF Bài 2</a>
+            </div>
+            
+            <div class="project-card">
+                <h3>Bài 3: Tư duy Prompt AI</h3>
+                <p>Minh chứng sự khác biệt giữa Prompt cơ bản và Prompt đã được cải tiến để đạt kết quả tối ưu từ AI.</p>
+                <a href="showpdf.html?file=bt/bai3.pdf" target="_blank" class="view-detail">Nhấn vào đây để xem PDF Bài 3</a>
+            </div>
+            
+            <div class="project-card">
+                <h3>Bài 4: Làm việc nhóm online</h3>
+                <p>Sử dụng các công cụ hợp tác trực tuyến để phân chia công việc và quản lý tiến độ dự án.</p>
+                <a href="showpdf.html?file=bt/bai4.pdf" target="_blank" class="view-detail">Nhấn vào đây để xem PDF Bài 4</a>
+            </div>
+            
+            <div class="project-card">
+                <h3>Bài 5: Sáng tạo nội dung số</h3>
+                <p>Tận dụng AI để hỗ trợ lên ý tưởng, hoàn thiện hình ảnh và bài viết chuyên nghiệp.</p>
+                <a href="showpdf.html?file=bt/bai5.pdf" target="_blank" class="view-detail">Nhấn vào đây để xem PDF Bài 5</a>
+            </div>
+            
+            <div class="project-card">
+                <h3>Bài 6: AI có trách nhiệm</h3>
+                <p>Xây dựng bộ nguyên tắc cá nhân về sử dụng Trí tuệ nhân tạo có trách nhiệm và liêm chính học thuật.</p>
+                <a href="showpdf.html?file=bt/bai6.pdf" target="_blank" class="view-detail">Nhấn vào đây để xem PDF Bài 6</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="summary">
+        <h2>Trang Tổng Kết Dự Án</h2>
+        <div class="box">
+            <h3 style="font-family: var(--font-main); font-weight: 600; font-size: 1.2rem;">1. Trải nghiệm cá nhân</h3>
+            <p>Lúc đầu, mình thấy khá áp lực và mông lung khi phải tự lục lại toàn bộ chặng đường đã qua để làm Portfolio. Nhưng khi nhìn sản phẩm dần hoàn thiện, mình nhận ra bản thân đã trưởng thành hơn rất nhiều. Dự án này thực sự là một cột mốc ý nghĩa, giúp mình thay đổi tư duy từ một người dùng công nghệ thụ động sang chủ động kiểm soát dòng chảy nội dung.</p>
+            
+            <h3 style="font-family: var(--font-main); font-weight: 600; font-size: 1.2rem; margin-top: 1.5rem;">2. Kiến thức & Kỹ năng học được</h3>
+            <ul>
+                <li><strong>Làm chủ công nghệ:</strong> Mình đã biết cách "ra lệnh" cho AI một cách logic thông qua các kỹ thuật prompt nâng cao để trích xuất dữ liệu chuẩn xác.</li>
+                <li><strong>Tư duy liêm chính:</strong> Mình hiểu rõ ranh giới giữa việc mượn lực từ AI để tối ưu công việc và việc lạm dụng nó, từ đó biết cách chịu trách nhiệm với sản phẩm của mình.</li>
+            </ul>
+
+            <h3 style="font-family: var(--font-main); font-weight: 600; font-size: 1.2rem; margin-top: 1.5rem;">3. Tâm đắc & Thách thức</h3>
+            <ul>
+                <li><strong>Tâm đắc nhất:</strong> Mình đã dung hòa được sức mạnh của AI mà không làm mất đi bản sắc cá nhân. Portfolio này vẫn mang đậm dấu ấn riêng chứ không hề bị rập khuôn máy móc.</li>
+                <li><strong>Thách thức lớn nhất:</strong> Đối mặt với lỗi "ảo tưởng thông tin" của AI. Mình đã phải tốn rất nhiều thời gian để kiểm tra, đối chiếu thủ công từng nguồn tài liệu để đảm bảo tính chính xác tuyệt đối cho bài nộp.</li>
+            </ul>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2026 Hà Mai Trang - MSSV: 25111201. Thiết kế với sự tối giản và bình yên.</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Trình Đọc PDF - Aesthetic Style</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+<style>
+/* --- BẢNG MÀU ĐỒNG BỘ VỚI WEB CHÍNH (VIBE AESTHETIC / BEIGE) --- */
+:root {
+    --bg-color: #f6f4f0; /* Nền trắng ngà, tone ấm */
+    --primary-text: #4a443c; /* Nâu đất đậm (chữ chính) */
+    --secondary-text: #766d62; /* Nâu đất nhạt */
+    --accent-color: #d1c7b8; /* Màu be điểm nhấn */
+    --box-bg: #ffffff; /* Nền hộp trắng */
+    --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --font-heading: 'Times New Roman', Times, serif; 
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-color); /* Đồng bộ nền web chính */
+    overflow: hidden;
+    font-family: var(--font-main);
+    color: var(--primary-text);
+}
+
+/* --- THANH CÔNG CỤ (TOOLBAR) --- */
+.toolbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    /* Hiệu ứng kính mờ cho toolbar */
+    background-color: rgba(246, 244, 240, 0.85);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 1px 10px rgba(0,0,0,0.03);
+    z-index: 999;
+}
+
+.toolbar button {
+    border: 1px solid #e0d8c8;
+    background: var(--box-bg);
+    color: var(--primary-text);
+    font-family: var(--font-main);
+    font-weight: 600;
+    font-size: 13px;
+    padding: 8px 20px;
+    border-radius: 4px; /* Bo góc nhẹ thay vì bo tròn xoe */
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.toolbar button:hover {
+    background: var(--accent-color);
+    color: var(--primary-text);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+#pageInfo {
+    color: var(--primary-text);
+    font-family: var(--font-heading); /* Dùng font cổ điển cho số trang */
+    font-weight: bold;
+    min-width: 90px;
+    text-align: center;
+    font-size: 16px;
+    background: transparent;
+    padding: 6px 15px;
+    border-bottom: 1px solid var(--accent-color);
+}
+
+/* --- VÙNG HIỂN THỊ PDF --- */
+.swiper {
+    width: 100%;
+    height: 100%;
+    padding-top: 60px;
+}
+
+.swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+    background: transparent;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.pageCanvas {
+    max-width: 100%;
+    max-height: 100%;
+    background: var(--box-bg);
+    /* Bo góc và viền chuẩn form web chính */
+    border-radius: 8px;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.05);
+    border: 1px solid #f0ebe1;
+}
+
+/* --- KHUNG LOADING KHI ĐANG TẢI --- */
+.loading {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--box-bg);
+    color: var(--primary-text);
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-size: 1.2rem;
+    padding: 20px 40px;
+    border-radius: 8px;
+    border: 1px solid #e0d8c8;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+    z-index: 9999;
+}
+
+/* --- HIỆU ỨNG CHIẾC LÁ KHÔ RƠI RỤNG --- */
+.leaf {
+    position: fixed;
+    top: -20px;
+    /* Dùng màu của cành lá khô để tạo lá */
+    background-color: #baa48a; 
+    border-radius: 0 50% 0 50%; /* Hình dạng chiếc lá */
+    opacity: 0.6;
+    pointer-events: none;
+    z-index: 10000;
+    animation: fall linear forwards;
+}
+
+@keyframes fall {
+    0% { transform: translateY(-10vh) rotate(0deg) scale(0.6); opacity: 0.8; }
+    50% { transform: translateY(50vh) rotate(180deg) translateX(20px) scale(0.8); }
+    100% { transform: translateY(110vh) rotate(360deg) translateX(-20px) scale(1); opacity: 0; }
+}
+
+@media(max-width: 768px) {
+    .toolbar { height: 55px; gap: 8px; }
+    .toolbar button { padding: 6px 12px; font-size: 12px; }
+    .swiper { padding-top: 55px; }
+    #pageInfo { font-size: 14px; padding: 4px 10px; }
+}
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+    <button id="prevBtn">PREV</button>
+    <div id="pageInfo">1 / 1</div>
+    <button id="nextBtn">NEXT</button>
+</div>
+
+<div class="loading" id="loading">
+    Loading document...
+</div>
+
+<div class="swiper">
+    <div class="swiper-wrapper" id="pdfPages"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script type="module">
+import * as pdfjsLib from "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs";
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs";
+
+// Lấy link PDF từ URL
+const urlParams = new URLSearchParams(window.location.search);
+let PDF_URL = urlParams.get('file'); 
+
+if (!PDF_URL) {
+    PDF_URL = "BT/bai1.pdf"; 
+}
+
+const wrapper = document.getElementById("pdfPages");
+const loading = document.getElementById("loading");
+const pageInfo = document.getElementById("pageInfo");
+
+try {
+    const pdf = await pdfjsLib.getDocument({
+        url: PDF_URL,
+        cMapUrl: "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/cmaps/",
+        cMapPacked: true,
+        standardFontDataUrl: "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/standard_fonts/"
+    }).promise;
+
+    for(let i=1; i<=pdf.numPages; i++){
+        const page = await pdf.getPage(i);
+        const viewport = page.getViewport({ scale: 2 });
+        const canvas = document.createElement("canvas");
+        
+        canvas.className = "pageCanvas";
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+
+        await page.render({
+            canvasContext: canvas.getContext("2d"),
+            viewport
+        }).promise;
+
+        const slide = document.createElement("div");
+        slide.className = "swiper-slide";
+        slide.appendChild(canvas);
+        wrapper.appendChild(slide);
+    }
+
+    loading.remove();
+
+    const swiper = new Swiper(".swiper", {
+        slidesPerView: 1,
+        spaceBetween: 0,
+        speed: 400,
+        grabCursor: true,
+        centeredSlides: true,
+        keyboard: { enabled: true },
+        mousewheel: true,
+        on: {
+            slideChange(){
+                pageInfo.textContent = `${swiper.activeIndex + 1} / ${pdf.numPages}`;
+            }
+        }
+    });
+
+    pageInfo.textContent = `1 / ${pdf.numPages}`;
+
+    document.getElementById("prevBtn").onclick = () => swiper.slidePrev();
+    document.getElementById("nextBtn").onclick = () => swiper.slideNext();
+
+} catch (error) {
+    loading.innerHTML = "Document not found.";
+    console.error("Lỗi khi tải PDF: ", error);
+}
+
+// ----------------------------------------------------
+// HIỆU ỨNG LÁ KHÔ RƠI NHẸ NHÀNG
+// ----------------------------------------------------
+function createLeaf() {
+    const leaf = document.createElement('div');
+    leaf.classList.add('leaf');
+    
+    // Kích thước lá ngẫu nhiên
+    const size = Math.random() * 10 + 10;
+    leaf.style.width = `${size}px`;
+    leaf.style.height = `${size}px`;
+    
+    // Vị trí rơi
+    leaf.style.left = `${Math.random() * 100}vw`;
+    
+    // Tốc độ rơi chậm rải, chill chill
+    const duration = Math.random() * 8 + 7;
+    leaf.style.animationDuration = `${duration}s`;
+    
+    document.body.appendChild(leaf);
+    
+    setTimeout(() => {
+        leaf.remove();
+    }, duration * 1000);
+}
+
+// Tạo lá thưa hơn (1.5 giây mới rớt 1 chiếc) để không làm rối mắt khi đọc tài liệu
+setInterval(createLeaf, 1500);
+
+</script>
+
+</body>
+</html>
