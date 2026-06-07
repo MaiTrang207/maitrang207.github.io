@@ -4,20 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<title>Trình Đọc PDF - Aesthetic Style</title>
+<title>Trình Đọc PDF - Minimalist Matcha</title>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 
 <style>
-/* --- BẢNG MÀU ĐỒNG BỘ VỚI WEB CHÍNH (VIBE AESTHETIC / BEIGE) --- */
+/* --- BẢNG MÀU ĐỒNG BỘ VỚI WEB CHÍNH (TONE MATCHA / MINIMALIST) --- */
 :root {
-    --bg-color: #f6f4f0; /* Nền trắng ngà, tone ấm */
-    --primary-text: #4a443c; /* Nâu đất đậm (chữ chính) */
-    --secondary-text: #766d62; /* Nâu đất nhạt */
-    --accent-color: #d1c7b8; /* Màu be điểm nhấn */
-    --box-bg: #ffffff; /* Nền hộp trắng */
-    --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    --font-heading: 'Times New Roman', Times, serif; 
+    --bg-color: #f2f5f3; /* Màu nền xanh xám siêu nhạt */
+    --primary-text: #2b3a32; /* Xanh lá rêu đậm */
+    --secondary-text: #5b6b61; /* Xanh xám */
+    --accent-color: #799482; /* Màu xanh Matcha */
+    --box-bg: #ffffff; 
+    --font-main: 'Segoe UI', Helvetica, Arial, sans-serif;
+    --font-heading: 'Georgia', serif; 
 }
 
 html, body {
@@ -31,7 +31,7 @@ html, body {
     color: var(--primary-text);
 }
 
-/* --- THANH CÔNG CỤ (TOOLBAR) --- */
+/* --- THANH CÔNG CỤ (TOOLBAR) - Dạng thanh mảnh, sắc nét --- */
 .toolbar {
     position: fixed;
     top: 0;
@@ -42,46 +42,44 @@ html, body {
     align-items: center;
     justify-content: center;
     gap: 15px;
-    /* Hiệu ứng kính mờ cho toolbar */
-    background-color: rgba(246, 244, 240, 0.85);
-    backdrop-filter: blur(8px);
-    box-shadow: 0 1px 10px rgba(0,0,0,0.03);
+    background-color: var(--box-bg);
+    border-bottom: 2px solid var(--accent-color);
     z-index: 999;
 }
 
+/* Nút bấm vuông vức, đổ bóng cứng phong cách retro/minimalist */
 .toolbar button {
-    border: 1px solid #e0d8c8;
+    border: 2px solid var(--primary-text);
     background: var(--box-bg);
     color: var(--primary-text);
     font-family: var(--font-main);
-    font-weight: 600;
+    font-weight: 700;
     font-size: 13px;
     padding: 8px 20px;
-    border-radius: 4px; /* Bo góc nhẹ thay vì bo tròn xoe */
+    border-radius: 0px; /* Bỏ bo góc */
     cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
-    transition: all 0.3s ease;
+    transition: all 0.2s ease-in-out;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
 .toolbar button:hover {
     background: var(--accent-color);
-    color: var(--primary-text);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    color: var(--box-bg);
+    transform: translate(-3px, -3px);
+    box-shadow: 4px 4px 0px var(--primary-text);
 }
 
 #pageInfo {
     color: var(--primary-text);
-    font-family: var(--font-heading); /* Dùng font cổ điển cho số trang */
+    font-family: var(--font-heading); 
     font-weight: bold;
     min-width: 90px;
     text-align: center;
     font-size: 16px;
     background: transparent;
     padding: 6px 15px;
-    border-bottom: 1px solid var(--accent-color);
+    border-bottom: 2px solid var(--primary-text);
 }
 
 /* --- VÙNG HIỂN THỊ PDF --- */
@@ -97,7 +95,7 @@ html, body {
     align-items: center;
     overflow: auto;
     background: transparent;
-    padding: 20px;
+    padding: 25px;
     box-sizing: border-box;
 }
 
@@ -105,10 +103,10 @@ html, body {
     max-width: 100%;
     max-height: 100%;
     background: var(--box-bg);
-    /* Bo góc và viền chuẩn form web chính */
-    border-radius: 8px;
-    box-shadow: 0 4px 30px rgba(0,0,0,0.05);
-    border: 1px solid #f0ebe1;
+    border-radius: 0px; /* Bỏ bo góc */
+    border: 2px solid var(--primary-text);
+    /* Đổ bóng khối cứng đồng bộ với thẻ dự án ở web chính */
+    box-shadow: 10px 10px 0px var(--accent-color);
 }
 
 /* --- KHUNG LOADING KHI ĐANG TẢI --- */
@@ -123,29 +121,9 @@ html, body {
     font-style: italic;
     font-size: 1.2rem;
     padding: 20px 40px;
-    border-radius: 8px;
-    border: 1px solid #e0d8c8;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+    border: 2px solid var(--primary-text);
+    box-shadow: 6px 6px 0px var(--accent-color);
     z-index: 9999;
-}
-
-/* --- HIỆU ỨNG CHIẾC LÁ KHÔ RƠI RỤNG --- */
-.leaf {
-    position: fixed;
-    top: -20px;
-    /* Dùng màu của cành lá khô để tạo lá */
-    background-color: #baa48a; 
-    border-radius: 0 50% 0 50%; /* Hình dạng chiếc lá */
-    opacity: 0.6;
-    pointer-events: none;
-    z-index: 10000;
-    animation: fall linear forwards;
-}
-
-@keyframes fall {
-    0% { transform: translateY(-10vh) rotate(0deg) scale(0.6); opacity: 0.8; }
-    50% { transform: translateY(50vh) rotate(180deg) translateX(20px) scale(0.8); }
-    100% { transform: translateY(110vh) rotate(360deg) translateX(-20px) scale(1); opacity: 0; }
 }
 
 @media(max-width: 768px) {
@@ -153,6 +131,7 @@ html, body {
     .toolbar button { padding: 6px 12px; font-size: 12px; }
     .swiper { padding-top: 55px; }
     #pageInfo { font-size: 14px; padding: 4px 10px; }
+    .pageCanvas { box-shadow: 6px 6px 0px var(--accent-color); }
 }
 </style>
 </head>
@@ -165,7 +144,7 @@ html, body {
 </div>
 
 <div class="loading" id="loading">
-    Loading document...
+    Đang tải tài liệu...
 </div>
 
 <div class="swiper">
@@ -242,38 +221,11 @@ try {
     document.getElementById("nextBtn").onclick = () => swiper.slideNext();
 
 } catch (error) {
-    loading.innerHTML = "Document not found.";
+    loading.innerHTML = "Không tìm thấy tài liệu.";
     console.error("Lỗi khi tải PDF: ", error);
 }
 
-// ----------------------------------------------------
-// HIỆU ỨNG LÁ KHÔ RƠI NHẸ NHÀNG
-// ----------------------------------------------------
-function createLeaf() {
-    const leaf = document.createElement('div');
-    leaf.classList.add('leaf');
-    
-    // Kích thước lá ngẫu nhiên
-    const size = Math.random() * 10 + 10;
-    leaf.style.width = `${size}px`;
-    leaf.style.height = `${size}px`;
-    
-    // Vị trí rơi
-    leaf.style.left = `${Math.random() * 100}vw`;
-    
-    // Tốc độ rơi chậm rải, chill chill
-    const duration = Math.random() * 8 + 7;
-    leaf.style.animationDuration = `${duration}s`;
-    
-    document.body.appendChild(leaf);
-    
-    setTimeout(() => {
-        leaf.remove();
-    }, duration * 1000);
-}
-
-// Tạo lá thưa hơn (1.5 giây mới rớt 1 chiếc) để không làm rối mắt khi đọc tài liệu
-setInterval(createLeaf, 1500);
+/* Đã gỡ bỏ toàn bộ Javascript tạo hiệu ứng hoa/lá rơi theo yêu cầu */
 
 </script>
 
